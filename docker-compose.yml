@@ -1,0 +1,23 @@
+# docker-compose.yml
+services:
+  app:
+    build: .
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/hotel_db
+    volumes:
+      - ./src:/app/src
+    command: ["python", "src/hotel_booking/manage.py", "runserver", "0.0.0.0:9000"]
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=hotel_db
+    volumes:
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    ports:
+      - "5432:5432"

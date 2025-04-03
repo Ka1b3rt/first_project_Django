@@ -1,0 +1,1 @@
+default_app_config = 'hotel_booking.apps.rooms.apps.RoomsConfig'
